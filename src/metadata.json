@@ -1,0 +1,8 @@
+{
+    "shell-version": ["3.18"], 
+    "uuid": "docker-integration@jan.trejbal.gmail.com", 
+    "name": "Docker integration", 
+    "original-author": "Jan Trejbal",
+    "url": "https://github.com/trejjam", 
+    "description": "Base Docker&Docker compose integration (start, stop, log, up), hide Docker network (veth*)"
+}
