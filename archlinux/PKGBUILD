@@ -1,5 +1,5 @@
 # Maintainer: Jan Trejbal <jan.trejbal@gmail.com>
-pkgname=gnome-shell-docker-integration-git
+pkgname=gnome-shell-extension-docker-integration-git
 pkgver=20160320
 pkgrel=1
 pkgdesc="Base Docker&Docker compose integration (start, stop, log, up), hide Docker network (veth*)"
@@ -12,7 +12,7 @@ provides=("docker-integration-applet")
 #install=gschemas.install
 
 _gitroot="git://github.com/Trejjam/Gnome-Docker-integration.git"
-_gitname="gnome-shell-docker-integration-applet"
+_gitname="gnome-docker-integration"
 
 build() {
     cd ${srcdir}/
@@ -28,7 +28,7 @@ build() {
 }
 
 package() {
-    cd "$srcdir/gnome-shell-docker-integration-applet"
+    cd "$srcdir/gnome-docker-integration"
     mkdir -p "$pkgdir/usr/share/gnome-shell/extensions/"
-    cp -R "src/*" "$pkgdir/usr/share/gnome-shell/extensions/docker-integration@jan.trejbal.gmail.com/"
+    cp -R "src" "$pkgdir/usr/share/gnome-shell/extensions/docker-integration@jan.trejbal.gmail.com"
 }
