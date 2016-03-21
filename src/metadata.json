@@ -3,6 +3,6 @@
     "uuid": "docker-integration@jan.trejbal.gmail.com", 
     "name": "Docker integration", 
     "original-author": "Jan Trejbal",
-    "url": "https://github.com/trejjam", 
+    "url": "https://github.com/Trejjam/Gnome-Docker-integration", 
     "description": "Base Docker&Docker compose integration (start, stop, log, up), hide Docker network (veth*)"
 }
