@@ -38,7 +38,7 @@ const Extension = imports.misc.extensionUtils.getCurrentExtension();
 //const _ = Gettext.gettext;
 
 let extensionName = Extension.dir.get_basename();
-let matchRegExp = /^Ethernet \(veth[a-z0-9]+\)$/i;
+let matchRegExp = /^Ethernet \(veth[a-z0-9]+\)$|^$/i;
 
 const DockerNetworkManager = new Lang.Class({
 	Name : 'DockerNetworkManager',
@@ -70,6 +70,15 @@ const DockerNetworkManager = new Lang.Class({
 				for ( var i = 0; i < _devices.length; i++) {
 					this._deviceAdded(_devices[i]._getDescription(), _devices[i]);
 				}
+
+				_devices.watch('length', function (property, from, to) {
+					let _network = Main.panel.statusArea.aggregateMenu._network;
+					let _devices = _network._devices.wired.devices;
+
+					_devices.forEach(function (device, i) {
+						this._deviceAdded(device._getDescription(), device);
+					}.bind(this));
+				}.bind(this));
 			}
 		}
 	},
@@ -80,6 +89,7 @@ const DockerNetworkManager = new Lang.Class({
 		}
 		
 		let _this = this;
+
 		this._ethDevices[deviceDescription] = new Object();
 		if(this._ethDevices[deviceDescription].timeoutId){
 			Mainloop.source_remove(this._ethDevices[deviceDescription].timeoutId);
@@ -87,17 +97,28 @@ const DockerNetworkManager = new Lang.Class({
 		}
 
 		log(extensionName + ' hide: ' + deviceDescription);
+		device.item.actor.watch('visible', function (property, from, to) {
+			if (to) {
+				log(extensionName + ' rehide: ' + deviceDescription);
+				device.item.actor.visible = false;
+			}
+		});
+
 		device.item.actor.visible = false;
 		this._ethDevices[deviceDescription].device = device;
 	},
 
 	_deviceRemoved : function(deviceDescription, device) {
 		log(extensionName + ' show: ' + deviceDescription);
+		device.item.actor.unwatch('visible');
+
 		device.item.actor.visible = true;
 		delete this._ethDevices[deviceDescription];
 	},
 
 	destroy : function() {
+		Main.panel.statusArea.aggregateMenu._network._devices.wired.devices.unwatch('length');
+
 		for ( var deviceDescription in this._ethDevices) {
 			if (this._ethDevices.hasOwnProperty(deviceDescription)) {
 				this._deviceRemoved(deviceDescription, this._ethDevices[deviceDescription].device);
