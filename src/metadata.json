@@ -1,5 +1,5 @@
 {
-    "shell-version": ["3.18"], 
+    "shell-version": ["3.18", "3.20"], 
     "uuid": "docker-integration@jan.trejbal.gmail.com", 
     "name": "Docker integration", 
     "original-author": "Jan Trejbal",
