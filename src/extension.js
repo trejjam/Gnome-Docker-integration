@@ -68,7 +68,7 @@ const DockerNetworkManager = new Lang.Class({
 				let _devices = _network._devices.wired.devices;
 
 				for ( var i = 0; i < _devices.length; i++) {
-					this._deviceAdded(_devices[i]._getDescription(), _devices[i]);
+					_devices[i] && this._deviceAdded(_devices[i]._getDescription(), _devices[i]);
 				}
 
 				_devices.watch('length', function (property, from, to) {
